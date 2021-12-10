@@ -30,7 +30,7 @@ function pokedex() {
     return printPokemon(search as Pokemon);
   }
 
-  console.log("Could not find pokemon nigger " + answer);
+  console.log("Could not find pokemon " + answer);
   return answer;
 }
 
