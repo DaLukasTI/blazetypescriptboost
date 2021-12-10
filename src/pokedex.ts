@@ -1,4 +1,4 @@
-var input = require("prompt-sync")();
+const readline = require("readline-sync");
 
 interface Pokemon {
   name: string;
@@ -10,12 +10,13 @@ interface Pokemon {
 }
 
 let pokemons: Pokemon[] = require("./assets/yassin.elberrad.json");
-let answer: string = "";
-
-console.log("u kale vader blaze - pokedex hihi xd");
+let answer: string | number = "";
 
 function pokedex() {
-  answer = input("Give me a number or name of a pokemon please(q to quit)> ");
+  answer = readline.question(
+    "Give me a number or name of a pokemon please(q to quit)\n> "
+  );
+
   if (answer === "q") {
     console.log("aight yuuuuuuuuuu");
     return answer;
@@ -29,21 +30,26 @@ function pokedex() {
     return printPokemon(search as Pokemon);
   }
 
-  console.log("Could not find pokimane nigger");
+  console.log("Could not find pokemon nigger");
   return answer;
 }
 
 function printPokemon(pokemon: Pokemon) {
-  let toPrint: Pokemon = {
-    name: pokemon.name,
-    id: pokemon.id,
-    english_flavor_text: pokemon.english_flavor_text,
-    how_heavy: pokemon.how_heavy,
-    eggs: pokemon.eggs,
-    pokedex_entries: pokemon.pokedex_entries,
-  };
-
-  return console.log(toPrint);
+  console.log("NAAM: " + pokemon.name);
+  console.log("ID: " + pokemon.id);
+  console.log(
+    "Omschrijving: " + pokemon.english_flavor_text.replace("\f", " ")
+  );
+  console.log("Gewicht: " + pokemon.how_heavy);
+  console.log("Eiertypes:");
+  pokemon.eggs.forEach((element) => {
+    console.log("- " + element);
+  });
+  console.log("Pokédexnummers:");
+  for (let key in pokemon.pokedex_entries) {
+    console.log("- " + key + ": " + pokemon.pokedex_entries[key]);
+  }
+  console.log("\n");
 }
 
 do {
