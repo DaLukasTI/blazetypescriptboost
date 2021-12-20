@@ -1,57 +1,32 @@
 const readline = require("readline-sync");
+import * as apiUtils from "./apiUtil";
+import { indexPokemon, Pokemon } from "./assets/models/pokemon.interface";
+import { printPokemon } from "./assets/printer";
 
-interface Pokemon {
-  name: string;
-  id: number;
-  english_flavor_text: string;
-  how_heavy: number;
-  eggs: string[];
-  pokedex_entries: any;
-}
-
-let pokemons: Pokemon[] = require("./assets/yassin.elberrad.json");
 let answer: string | number = "";
 
-function pokedex() {
-  answer = readline.question(
-    "Give me a number or name of a pokemon please(q to quit)\n> "
-  );
+async function loop() {
+  do {
+    let pokemons: indexPokemon[] = await apiUtils.getAllPokemons();
+    answer = readline.question("Welk pokemon wil je bekijken?(q to quit) \n>");
+    if (answer === "q") {
+      console.log("U pressed q to quit, c ya later");
+      break;
+    }
 
-  if (answer === "q") {
-    console.log("aight yuuuuuuuuuu");
-    return answer;
-  }
+    let search: indexPokemon | undefined = await apiUtils.searchCollection(
+      pokemons,
+      answer
+    );
 
-  var search: Pokemon | undefined = isNaN(answer as any)
-    ? pokemons.find((pokemon) => pokemon.name === answer)
-    : pokemons.find((pokemon) => pokemon.id === Number(answer));
-
-  if (typeof search !== "undefined") {
-    return printPokemon(search as Pokemon);
-  }
-
-  console.log("Could not find pokemon " + answer);
-  return answer;
+    if (typeof search !== "undefined") {
+      let finalPokemon: Pokemon = await apiUtils.getDetailByPokemon(search);
+      printPokemon(finalPokemon);
+    } else {
+      console.log("No pokemon found for the search: " + answer);
+    }
+  } while (answer != "q");
 }
 
-function printPokemon(pokemon: Pokemon) {
-  console.log("NAAM: " + pokemon.name);
-  console.log("ID: " + pokemon.id);
-  console.log(
-    "Omschrijving: " + pokemon.english_flavor_text.replace("\f", " ")
-  );
-  console.log("Gewicht: " + pokemon.how_heavy);
-  console.log("Eiertypes:");
-  pokemon.eggs.forEach((element) => {
-    console.log("- " + element);
-  });
-  console.log("Pokédexnummers:");
-  for (let key in pokemon.pokedex_entries) {
-    console.log("- " + key + ": " + pokemon.pokedex_entries[key]);
-  }
-  console.log("\n");
-}
-
-do {
-  pokedex();
-} while (answer != "q");
+loop();
+export {};
