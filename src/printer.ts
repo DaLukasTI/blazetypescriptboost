@@ -1,4 +1,4 @@
-import { Pokemon } from "./models/pokemon.interface";
+import { Pokemon } from "./assets/models/pokemon.interface";
 
 function printPokemon(pokemon: Pokemon) {
   console.log("NAAM: " + pokemon.name);
@@ -6,7 +6,7 @@ function printPokemon(pokemon: Pokemon) {
   console.log(
     "Omschrijving: " + pokemon.english_flavor_text.replace("\f", " ")
   );
-  console.log("Gewicht: " + pokemon.how_heavy);
+  console.log("Gewicht: " + pokemon.how_heavy + " KG");
   console.log("Eiertypes:");
   pokemon.eggs.forEach((element) => {
     console.log("- " + element);

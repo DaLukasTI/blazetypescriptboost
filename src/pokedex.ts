@@ -1,7 +1,7 @@
 const readline = require("readline-sync");
 import * as apiUtils from "./apiUtil";
 import { indexPokemon, Pokemon } from "./assets/models/pokemon.interface";
-import { printPokemon } from "./assets/printer";
+import { printPokemon } from "./printer";
 
 let answer: string | number = "";
 

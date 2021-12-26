@@ -31,6 +31,7 @@ async function getDetailByPokemon(pokemon: indexPokemon) {
   });
   newPokemon.name = result.name;
   newPokemon.id = result.id;
+  newPokemon.how_heavy = result.how_heavy;
   newPokemon.english_flavor_text = result.english_flavor_text.replace(
     "\f",
     " "
